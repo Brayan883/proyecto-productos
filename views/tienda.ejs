@@ -45,31 +45,37 @@
    <div class="card h-100">
       <div class="card-body row d-flex align-items-center justify-content-between">        
         <div class="col col-md-4">
-          <div class="card CardCategoria" data-Id="<%-mostrarUltimaCategorias[0].IdCategoria  %>"  style="cursor: pointer !important;">
-            <div class="card-header bg-info">
-              <div class="card-title text-white text-center fs-5">
-                <%- mostrarUltimaCategorias[0].Nombre  %>
+          <% if (mostrarUltimaCategorias[0]) { %>
+            <div class="card CardCategoria" data-Id="<%-mostrarUltimaCategorias[0].IdCategoria  %>"  style="cursor: pointer !important;">
+              <div class="card-header bg-info">
+                <div class="card-title text-white text-center fs-5">
+                  <%- mostrarUltimaCategorias[0].Nombre  %>
+                </div>
               </div>
             </div>
-          </div>
+          <% } %>          
         </div>
         <div class="col col-md-4">
-          <div class="card CardCategoria" data-Id="<%-mostrarUltimaCategorias[1].IdCategoria  %>" style="cursor: pointer !important;">
-            <div class="card-header bg-info">
-              <div class="card-title text-white text-center fs-5">
-                <%- mostrarUltimaCategorias[1].Nombre  %>
+          <% if (mostrarUltimaCategorias[1]) { %>
+            <div class="card CardCategoria" data-Id="<%-mostrarUltimaCategorias[1]?.IdCategoria  %>" style="cursor: pointer !important;">
+              <div class="card-header bg-info">
+                <div class="card-title text-white text-center fs-5">
+                  <%- mostrarUltimaCategorias[1].Nombre  %>
+                </div>
               </div>
             </div>
-          </div>
+          <% } %>          
         </div>
         <div class="col col-md-4">
-          <div class="card CardCategoria" data-Id="<%-mostrarUltimaCategorias[2].IdCategoria  %>" style="cursor: pointer !important;">
-            <div class="card-header bg-info">
-              <div class="card-title text-white text-center fs-5">
-                <%- mostrarUltimaCategorias[2].Nombre  %>
+          <% if (mostrarUltimaCategorias[2]) { %>
+            <div class="card CardCategoria" data-Id="<%-mostrarUltimaCategorias[2].IdCategoria  %>" style="cursor: pointer !important;">
+              <div class="card-header bg-info">
+                <div class="card-title text-white text-center fs-5">
+                  <%- mostrarUltimaCategorias[2].Nombre  %>
+                </div>
               </div>
             </div>
-          </div>
+          <% } %>         
         </div>
       </div>
    </div>
