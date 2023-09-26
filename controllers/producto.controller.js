@@ -115,13 +115,14 @@ const deleteproducto = async (req, res, next) => {
                 }
             }).then(function () {
                 console.log('Producto eliminado');
-               return res.redirect('/')
+                res.status(200).json({message: 'Producto eliminado'})
             })    
         }else{        
-           return res.redirect('/')    
+           return res.status(404).json({message: 'Producto no encontrado'})
         }        
-    } catch (e) {        
-        res.redirect('/')
+    } catch (e) {
+        console.log(e.message)
+        return res.status(500).json({message: 'Error en el servidor'})
     } finally {
         prisma.$disconnect()
     }

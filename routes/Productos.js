@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', listarProducto );
 router.post('/create', validacionMulter ,validacionData(Producto_schema, '/')  ,createproducto );
-router.get('/delete/:id',  validacionData(deleteSchema , '/' ), deleteproducto );
+router.delete('/delete/:id',  validacionData(deleteSchema , '/' ), deleteproducto );
 router.get('/update/:id', updateproducto );
 router.post('/update/:id', validacionMulterOpcional , validacionData(Producto_schema_update, '/'), ActualizarProducto );
 module.exports = router;

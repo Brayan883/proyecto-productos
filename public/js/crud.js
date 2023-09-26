@@ -6,10 +6,7 @@ $('.btnEditar').on('click',function(){
     $('#staticBackdrop').modal('show');  
 })
 
-$('.ProductoEliminar').on('click',function () {    
-    $('#ModalEliminar').attr('href', `/delete/${$(this).attr('data-Elim')}` )
-    $('#EliminarModal').modal('show');  
-})
+
 
 $('.btnElimiCategoria').on('click' ,  function () {
     $('#ModalEliminar').attr('href', `/categoria/delete/${$(this).attr('data-Id')}` )
