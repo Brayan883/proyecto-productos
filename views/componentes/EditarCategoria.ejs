@@ -1,0 +1,72 @@
+<div
+  class="modal fade"
+  id="EditCategoria"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered"    
+  >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Categoria</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form action="/categoria/update" method="post">
+          <div class="row">
+            <div class="col">
+              <input
+                type="hidden"
+                class="form-control"
+                name="IdActualizar"
+                id="IdActualizar"
+              />
+              <Label for="Nombre" class="form-label text-white">
+                Ingrese Nombre
+              </Label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nombre"
+                name="Nombre"
+                id="NombreModal"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <Label for="Estado" class="form-label text-white">
+                Ingrese Estado
+              </Label>
+              <select
+                name="Estado"
+                class="form-select form-select-sm"
+                id="EstadoModal"
+              >
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <button
+              class="btn btn-outline-success w-100 mx-auto d-block"
+              type="submit"
+            >
+              Editar Categoria
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

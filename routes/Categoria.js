@@ -9,5 +9,5 @@ const { CategoriaSchema , CategoriaSchemaUpdate , deleteCategoriaSchema } = requ
 router.get('/', listarcategoria );
 router.post('/create', validacionData(CategoriaSchema, '/categoria')  ,createCategoria ) 
 router.post('/update', validacionData(CategoriaSchemaUpdate, '/categoria')  ,updatecategoria );
-router.get('/delete/:id',validacionData(deleteCategoriaSchema, '/categoria') ,deleteCategoria );
+router.delete('/delete/:id',validacionData(deleteCategoriaSchema, '/categoria') ,deleteCategoria );
 module.exports = router;
