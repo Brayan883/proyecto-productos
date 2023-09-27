@@ -143,4 +143,29 @@ $(document).ready(function () {
   $(".select2").select2({
     tags: true,
   });
+
+  new Swiper(".mySwiper", {
+    effect: "coverflow",
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: "auto",
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    coverflowEffect: {
+      rotate: 50,
+      stretch: 0,
+      depth: 100,
+      modifier: 1,
+      slideShadows: true,
+    },
+    pagination: {
+      el: ".swiper-pagination",
+    },
+
+  });
+
+  $("#sidebar, #content").stick_in_parent();
+
 });

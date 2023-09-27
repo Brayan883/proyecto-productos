@@ -1,0 +1,35 @@
+<div id="content" class="container-fluid p-4">
+    <div class="row">
+      <div class="col col-md-3">
+        <div class="card">
+          <div class="card-header bg-success">
+            <div class="card-title text-white">Categoria</div>
+          </div>
+          <div class="card-body">
+            <ul class="list-group text-white">
+              <% mostrarCategoria.forEach(element=> { %>
+              <button
+                class="list-group-item list-group-item-action"
+                data-iDCategoria="<%-element.IdCategoria%>"
+              >
+                <%- element.Nombre %>
+              </button>
+              <% }) %>
+              <button
+                class="list-group-item active list-group-item-action"
+                data-iDCategoria="null"
+              >
+                Mostrar todas
+              </button>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col col-md-9">
+        <div
+          id="search-results"
+          class="container-fluid d-flex flex-wrap p-1 gap-2"
+        ></div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,71 @@
+<header>
+  <nav
+    id="sidebar"
+    class="navbar navbar-expand-md navbar-success bg-success p-4"
+    style="z-index: 100 !important"
+  >
+    <div class="container d-flex">
+      <a class="navbar-brand" href="#">
+        <img
+          src="https://kachabazar-store.vercel.app/logo/logo-light.svg"
+          alt=""
+          width="100%"
+          height="100%"
+        />
+      </a>
+      <form class="d-flex w-50 p-3 flex-grow-1">
+        <input
+          id="search-input"
+          class="form-control me-2"
+          type="search"
+          placeholder="Buscar Productos,  Marcas y Mas..."
+          aria-label="Search"
+        />
+      </form>
+      <div class="">
+        <button type="button" class="btn btn-outline-dark  position-relative">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            style="
+              fill: white;
+              transform: scaleX(-1);
+              msfilter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1);
+            "
+          >
+            <circle cx="10.5" cy="19.5" r="1.5"></circle>
+            <circle cx="17.5" cy="19.5" r="1.5"></circle>
+            <path
+              d="M13 13h2v-2.99h2.99v-2H15V5.03h-2v2.98h-2.99v2H13V13z"
+            ></path>
+            <path
+              d="M10 17h8a1 1 0 0 0 .93-.64L21.76 9h-2.14l-2.31 6h-6.64L6.18 4.23A2 2 0 0 0 4.33 3H2v2h2.33l4.75 11.38A1 1 0 0 0 10 17z"
+            ></path>
+          </svg>
+          <span
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info"
+          >
+            5
+          </span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid p-5">
+    <% if (MostrarProducto.length > 0 ) { %>
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <% MostrarProducto.forEach(element => { %>
+        <div class="swiper-slide">
+          <img src="/img/<%= element.imagen %>" alt="<%= element.Nombre  %>" />
+        </div>
+        <% }) %>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+    <% } %>
+  </div>
+</header>
