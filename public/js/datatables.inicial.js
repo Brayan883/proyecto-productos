@@ -163,9 +163,16 @@ $(document).ready(function () {
     pagination: {
       el: ".swiper-pagination",
     },
-
   });
 
   $("#sidebar, #content").stick_in_parent();
+  $(".btnOpenCategoria").on("click", function () {
+    window.open("/categoria", "_target");
+  });
+
+   new  GLightbox({ 
+      selector: '.glightbox',
+      autoplayVideos: true,      
+   });
 
 });

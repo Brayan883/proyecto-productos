@@ -20,7 +20,11 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form action="/update/producto" method="post"  enctype="multipart/form-data">
+        <form
+          action="/update/producto"
+          method="post"
+          enctype="multipart/form-data"
+        >
           <input type="hidden" id="IdEdit" name="Id" />
           <div class="row mb-2">
             <div class="col">
@@ -118,25 +122,30 @@
 
           <div class="row">
             <div class="col">
-              <Label for="Categoria" class="form-label text-white">
+              <Label for="Categoria" class="form-label d-block">
                 Ingrese Categoria</Label
               >
-              <select name="Categoria" class="form-select" id="CategoriaEdit">
-                <% if (mostrarCategoria.length> 0) { %> <%
-                mostrarCategoria.forEach(element=> { %>
-                <option value="<%- element.IdCategoria %>">
-                  <%- element.Nombre %>
-                </option>
-                <% }) %> <% } else { %>
-                <option value="">Ingrese Categoria</option>
-                <% } %>
-              </select>
+              <div class="d-flex align-items-center gap-3">
+                <select
+                  name="Categoria"
+                  class="form-select d-inline"
+                  id="CategoriaEdit"
+                >
+                  <% if (mostrarCategoria.length> 0) { %> <%
+                  mostrarCategoria.forEach(element=> { %>
+                  <option value="<%- element.IdCategoria %>">
+                    <%- element.Nombre %>
+                  </option>
+                  <% }) %> <% } else { %>
+                  <option value="">Ingrese Categoria</option>
+                  <% } %>
+                </select>
+                <button  type="button" class="btn btn-outline-success btnOpenCategoria">+</button>
+              </div>
             </div>
 
             <div class="col">
-              <Label for="Estado" class="form-label text-white">
-                Ingrese Estado
-              </Label>
+              <Label for="Estado" class="form-label"> Ingrese Estado </Label>
               <select name="Estado" class="form-select" id="EstadoEdit">
                 <option value="Activo">Activo</option>
                 <option value="Inactivo">Inactivo</option>

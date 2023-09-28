@@ -1,24 +1,27 @@
 <template id="search-result-template">
-    <div class="card" style="width: 18rem">
+  <div class="card" style="width: 18rem">
+    <div class="overflow-hidden">
       <img
-        style="object-fit: cover !important; height: 200px !important"
-        class="search-result__imagen card-img-top"
+        style="
+          object-fit: cover !important;
+          height: 200px !important;
+          cursor: pointer !important;
+        "
+        class="search-result__imagen card-img-top glightbox boxImg"
         alt=""
       />
-      <div class="card-body">
-        <h5 class="search-result__title card-title text-success fs-5"></h5>
-        <hr />
-        <p class="search-result__precio card-text text-danger fs-5"></p>
-        <button
-          type="submit"
-          data-Id=""
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
-          class="search-result__boton btn btn-outline-success d-block w-100"
-        >
-          Comprar
-        </button>
-      </div>
     </div>
-  </template>
+    <div class="card-body">
+      <h5 class="search-result__title card-title text-success fs-5"></h5>
+      <hr />
+      <p class="search-result__precio card-text text-danger fs-5"></p>
+      <button
+        type="submit"
+        data-Id=""      
+        class="search-result__boton btn btn-outline-success d-block w-100"
+      >
+        Comprar
+      </button>
+    </div>
+  </div>
+</template>

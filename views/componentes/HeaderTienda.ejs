@@ -23,7 +23,13 @@
         />
       </form>
       <div class="">
-        <button type="button" class="btn btn-outline-dark  position-relative">
+        <button
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasRight"
+          aria-controls="offcanvasRight"
+          class="btn btn-outline-dark position-relative"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -45,9 +51,9 @@
             ></path>
           </svg>
           <span
+            id="templateContadorCarrito"
             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info"
           >
-            5
           </span>
         </button>
       </div>
