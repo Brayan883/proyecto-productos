@@ -1,32 +1,75 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const layout = require('express-ejs-layouts');
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-require('dotenv').config();
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const layout = require("express-ejs-layouts");
+const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const session = require("express-session");
+const MySQLStore = require("express-mysql-session")(session);
+const passport = require("passport");
+require("dotenv").config();
 
-const ProductoRouter = require('./routes/Productos');
-const CategoriaRouter = require('./routes/Categoria');
-const TiendaRouter = require('./routes/tienda');
-
+const ProductoRouter = require("./routes/Productos");
+const CategoriaRouter = require("./routes/Categoria");
+const TiendaRouter = require("./routes/tienda");
+const { options } = require("./config");
+const prisma = require("./db/db");
+const sessionStore = new MySQLStore(options);
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 app.use(layout);
 
-
-
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 app.use(
+  session({
+    key: process.env.SESSION_KEY,
+    secret: process.env.SESSION_SECRET,
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function (user, cb) {
+  process.nextTick(function () {
+    try {
+      cb(null, { id: user.idUser, username: user.username });
+    } catch (error) {
+      cb(error, null);
+    }
+  });
+});
+
+passport.deserializeUser(function (user, cb) {
+  process.nextTick(async function () {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          idUser: parseInt(user.idUser),
+        },
+      });
+      if (!user) return cb(null, null);
+
+      cb(null, { id: user.idUser, username: user.username });
+    } catch (error) {
+      cb(error, null);
+    }
+  });
+});
+
+app.use(
   helmet({
-    contentSecurityPolicy:false,
+    contentSecurityPolicy: false,
     xssFilter: true,
   })
 );
@@ -36,29 +79,36 @@ app.use(helmet.noSniff());
 app.use(helmet.referrerPolicy({ policy: "same-origin" }));
 app.use(helmet.permittedCrossDomainPolicies());
 
+app.use("/", TiendaRouter);
+app.use("/productos", ProductoRouter);
+app.use("/categoria", CategoriaRouter);
 
-app.use('/', ProductoRouter);
-app.use('/categoria', CategoriaRouter);
-app.use('/tienda', TiendaRouter  )
-
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(function(req, res, next) {
+app.use(express.static(path.join(__dirname, "public")));
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render("error");
 });
 
+sessionStore
+  .onReady()
+  .then(() => {
+    console.log("MySQLStore ready");
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 
 const port = process.env.PORT || 3000;
-app.listen(port , ()=>{
+app.listen(port, () => {
   console.log(`Servidor corriendo en el puerto http://localhost:3000/`);
 });

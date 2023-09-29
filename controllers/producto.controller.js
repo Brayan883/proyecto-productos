@@ -14,11 +14,7 @@ const listarProducto = async (req, res, next) => {
         Descripcion: true,
         marca: true,
         estado: true,
-        categoria: {
-          select: {
-            Nombre: true,
-          },
-        },
+        categoriaId: true,        
         subtotal: true,
       },
     });
@@ -70,11 +66,11 @@ const createproducto = async (req, res) => {
       })
       .then(function () {
         console.log("Producto creado");
-        res.redirect("/");
+        res.redirect("/productos");
       });
   } catch (e) {
     console.log(e.message);
-    res.redirect("/");
+    res.redirect("/productos");
   } finally {
     prisma.$disconnect();
   }
@@ -152,13 +148,13 @@ const UpdateProducto = async (req, res) => {
           subtotal: parseFloat(precio) * parseInt(Cantidad) || null,
         },
       });
-      return res.redirect("/");
+      return res.redirect("/productos");
     } else {
-      return res.redirect("/");
+      return res.redirect("/productos");
     }
   } catch (e) {
     console.log(e.message);
-    return res.redirect("/");
+    return res.redirect("/productos");
   } finally {
     prisma.$disconnect();
   }

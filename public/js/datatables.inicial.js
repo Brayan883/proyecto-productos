@@ -27,7 +27,7 @@ $(document).ready(function () {
             let id = $(this).attr("data-Elim");
             $.ajax({
               type: "DELETE",
-              url: `/delete/${id}`,
+              url: `/productos/delete/${id}`,
               success: function (data) {
                 Swal.fire({
                   position: "top-end",
@@ -57,7 +57,7 @@ $(document).ready(function () {
         let id = $(this).attr("data-id");
         $.ajax({
           type: "GET",
-          url: `/listar/${id}`,
+          url: `/productos/listar/${id}`,
           success: function (data) {
             $("#IdEdit").val(data.IdProducto);
             $("#NombreEdit").val(data.Nombre);

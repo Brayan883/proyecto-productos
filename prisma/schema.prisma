@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,37 +7,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model Producto {
-  IdProducto  Int          @id @default(autoincrement())
-  Nombre      String
-  imagen      String?
-  precio      Float         @default(0.00)      
-  stock       Int
-  cantidad    Int
-  Descripcion String?
-  marca       String?
-  estado      producto_estado
-  categoriaId Int?
-  subtotal    Float?      @default(0.00)      
-  categoria Categoria? @relation(fields: [categoriaId], references: [IdCategoria], onUpdate: SetNull, onDelete: SetNull)
-  fechaCreacion DateTime        @default(now())
+model categoria {
+  IdCategoria   Int              @id @default(autoincrement())
+  Nombre        String
+  estado        categoria_estado
+  fechaCreacion DateTime         @default(now())
 }
 
-
-
-model Categoria {
-  IdCategoria  Int          @id @default(autoincrement())
-  Nombre      String
-  estado      producto_estado
-  Producto    Producto[]
+model producto {
+  IdProducto    Int             @id @default(autoincrement())
+  Nombre        String
+  imagen        String?
+  precio        Float           @default(0)
+  stock         Int
+  cantidad      Int
+  Descripcion   String?
+  marca         String?
+  estado        producto_estado
+  categoriaId   Int?
   fechaCreacion DateTime        @default(now())
+  subtotal      Float?          @default(0)
+  usuarioId     Int
+
+  @@index([categoriaId], map: "Producto_categoriaId_fkey")
+  @@index([usuarioId], map: "Producto_usuarioId_fkey")
 }
 
+model sessions {
+  session_id String  @id @db.VarChar(128)
+  expires    Int     @db.UnsignedInt
+  data       String? @db.MediumText
+}
 
+model user {
+  idUser   Int    @id @default(autoincrement())
+  username String
+  email    String
+  password String
+}
 
+enum categoria_estado {
+  Activo
+  Inactivo
+}
 
 enum producto_estado {
   Activo
-  Inactivo 
+  Inactivo
 }
