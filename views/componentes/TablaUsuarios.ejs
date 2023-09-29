@@ -1,0 +1,21 @@
+<table id="tablas"  class="table table-striped  table-hover w-100">
+    <thead>
+      <tr>                
+        <th scope="col">Nombre</th>
+        <th scope="col">Email</th>
+        <th scope="col">Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% mostrarUsuarios.forEach(element => { %>
+            <tr>            
+                <td><%-element.username  %></td>
+                <td><%-element.email  %></td>                                      
+                <td>
+                    <a class="btn btn-sm btn-outline-info btnEditarUsuario" data-IdUser="<%-element.idUser %>" >Editar</a>
+                    <a href="#"  class="btn btn-sm btn-outline-danger btnElimiUsuario" data-IdUser="<%-element.idUser %>"  >Eliminar</a>
+                </td>                
+              </tr>           
+        <% }) %>                
+    </tbody>
+  </table>

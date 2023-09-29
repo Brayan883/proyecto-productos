@@ -1,0 +1,53 @@
+<div class="card">
+  <div class="card-header bg-success text-center">
+    <div class="card-title text-white fs-3">Agregar Usuarios</div>
+  </div>
+  <div class="card-body">
+    <form action="/usuarios/create" method="post">
+      <div class="row">
+        <div class="col mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder=" Ingrese Nombre"
+            name="Nombre"
+            id="Nombre"
+          />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <input
+            type="Email"
+            class="form-control"
+            placeholder=" Ingrese Email"
+            name="Email"
+            id="Email"
+          />
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Ingrese Contraseña"
+            name="Password"
+            id="Contraseña"
+          />
+        </div>
+      </div>
+
+      <div class="mt-3">
+        <button
+          class="btn btn-outline-success w-100 mx-auto d-block"
+          type="submit"
+        >
+          Agregar Usuario
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

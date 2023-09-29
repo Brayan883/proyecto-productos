@@ -137,6 +137,60 @@ $(document).ready(function () {
           }
         });
       });
+
+      $("#tablas").on("click", ".btnEditarUsuario", function () {
+        let [username, email] = $(this)
+          .parents("tr")
+          .find("td")
+          .toArray()
+          .slice(0, 2)
+          .map((item) => $(item).text());
+        $("#NombreModal").val(username);
+        $("#EmailModal").val(email);
+        $("#IdActualizar").val($(this).attr("data-IdUser"));
+        $("#EditUsuarios").modal("show");
+      });
+
+      $("#tablas").on("click", ".btnElimiUsuario", function () {
+        Swal.fire({
+          title: "Estas seguro?",
+          text: "¡No podrás revertir esto!",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonText: "Cancelar",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "¡Sí, bórralo!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            let id = $(this).attr("data-IdUser");
+            $.ajax({
+              type: "DELETE",
+              url: `usuarios/delete/${id}`,
+              success: function (data) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Usuario eliminado",
+                  showConfirmButton: false,
+                  timer: 1800,
+                }).then(() => {
+                  window.location.reload();
+                });
+              },
+              error: function (data) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "error",
+                  title: "Error al eliminar " + data?.responseJSON?.message,
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              },
+            });
+          }
+        });
+      });
     },
   });
 
@@ -169,10 +223,36 @@ $(document).ready(function () {
   $(".btnOpenCategoria").on("click", function () {
     window.open("/categoria", "_target");
   });
+  $(".btnSalir").on("click", function () {
+    $.ajax({
+      type: "GET",
+      url: "/login/salir",
+      success: function (data) {
+        console.log(data);
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${data?.message}`,
+          showConfirmButton: false,
+          timer: 1800,
+        }).then(() => {
+          window.location.href = "/";
+        });
+      },
+      error: function (data) {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "Error al cerrar session " + data?.responseJSON?.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      },
+    });
+  });
 
-   new  GLightbox({ 
-      selector: '.glightbox',
-      autoplayVideos: true,      
-   });
-
+  new GLightbox({
+    selector: ".glightbox",
+    autoplayVideos: true,
+  });
 });

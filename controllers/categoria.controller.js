@@ -6,7 +6,7 @@ const listarcategoria = async (req, res, next) => {
         IdCategoria: true,
         Nombre: true,
         estado: true,
-      },
+      }  
     });
     res.render("categoria", {
       title: "categoria",
@@ -28,7 +28,7 @@ const createCategoria = async (req, res) => {
       .create({
         data: {
           Nombre,
-          estado: Estado,
+          estado: Estado
         },
       })
       .then(function () {
@@ -78,7 +78,7 @@ const updatecategoria = async (req, res) => {
       },
       data: {
         Nombre,
-        estado: Estado,
+        estado: Estado
       },
     });
     res.redirect("/categoria");

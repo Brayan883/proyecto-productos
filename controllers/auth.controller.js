@@ -9,21 +9,27 @@ const mostrarlogin = (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { Email, Password } = req.body;
+
+    console.log(req.body);
 
     const FindUser = await prisma.user.findUnique({
       where: {
-        email,
+        email: Email,
       },
     });
 
-    if (!FindUser)
-      return res.status(404).json({ message: "Usuario no encontrado" });
+    if (!FindUser) {
+      console.log("Usuario no encontrado");
+      return res.redirect("/login");
+    }
 
-    if (!bcrypt.compareSync(password, FindUser.password))
-      return res.status(400).json({ message: "contraseña incorrecta" });
+    if (!bcrypt.compareSync(Password, FindUser.password)) {
+      console.log("contraseña incorrecta");
+      return res.redirect("/login");
+    }
 
-    req.login(user, (err) => {
+    req.login(FindUser, (err) => {
       if (err) {
         throw err;
       }
@@ -31,13 +37,35 @@ const login = async (req, res) => {
     });
   } catch (e) {
     console.log(e.message);
-    return res.redirect("/");
+    return res.redirect("/login");
   } finally {
     prisma.$disconnect();
   }
 };
 
+const logoutCerrar = (req, res) => {
+  try {
+    req.logout(function (err) {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).json({
+          message: "Error al cerrar la sesión",
+        });
+      }
+      return res.status(200).json({
+        message: "Sesión cerrada",
+      });
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      message: "Error en el servidor",
+    });
+  }  
+};
+
 module.exports = {
   login,
   mostrarlogin,
+  logoutCerrar,
 };

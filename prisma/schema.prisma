@@ -11,7 +11,7 @@ model categoria {
   IdCategoria   Int              @id @default(autoincrement())
   Nombre        String
   estado        categoria_estado
-  fechaCreacion DateTime         @default(now())
+  fechaCreacion DateTime         @default(now())  
 }
 
 model producto {
@@ -42,7 +42,7 @@ model sessions {
 model user {
   idUser   Int    @id @default(autoincrement())
   username String
-  email    String
+  email    String @unique
   password String
 }
 

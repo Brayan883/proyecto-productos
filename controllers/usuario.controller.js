@@ -1,10 +1,11 @@
+const { Prisma } = require("@prisma/client");
 const prisma = require("../db/db");
 const bcrypt = require("bcrypt");
 const ListarUsuarios = async (req, res) => {
   try {
     const mostrarUsuarios = await prisma.user.findMany({
       select: {
-        IdUser: true,
+        idUser: true,
         username: true,
         email: true,
       },
@@ -22,30 +23,32 @@ const ListarUsuarios = async (req, res) => {
 
 const createUsuario = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { Nombre, Email, Password } = req.body;
 
     const FindUser = await prisma.user.findUnique({
       where: {
-        email,
+        email: Email,
       },
     });
 
-    if (FindUser)
-      return res.status(400).json({ message: "El usuario ya existe" });
-
+    if (FindUser) {
+      console.log("El usuario ya existe");
+      return res.redirect("/usuarios");
+    }
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(Password, salt);
+
     await prisma.user.create({
       data: {
-        username,
-        email,
+        username: Nombre,
+        email: Email,
         password: hashedPassword,
       },
     });
     console.log("Usuario creado");
     return res.redirect("/usuarios");
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     return res.redirect("/usuarios");
   } finally {
     prisma.$disconnect();
@@ -58,7 +61,7 @@ const deleteUsuario = async (req, res) => {
 
     const FindUser = await prisma.user.findUnique({
       where: {
-        IdUser: parseInt(id),
+        idUser: parseInt(id),
       },
     });
 
@@ -67,7 +70,7 @@ const deleteUsuario = async (req, res) => {
 
     await prisma.user.delete({
       where: {
-        IdUser: parseInt(id),
+        idUser: parseInt(id),
       },
     });
     return res.status(200).json({ message: "Usuario eliminado" });
@@ -81,32 +84,47 @@ const deleteUsuario = async (req, res) => {
 
 const UpdateUsuario = async (req, res) => {
   try {
-    const { username, email, password, Id } = req.body;
+    const { Nombre, Email, Password, IdActualizar } = req.body;
 
     const FindUser = await prisma.user.findUnique({
       where: {
-        IdUser: parseInt(Id),
+        idUser: parseInt(IdActualizar),
       },
     });
 
-    if (!FindUser)
-      return res.status(404).json({ message: "Usuario no encontrado" });
+    if (!FindUser) {
+      console.log("Usuario no encontrado");
+      return res.redirect("/usuarios");
+    }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    let hashedPassword = null;
+    if (Password) {
+      if (Password.length < 6) {
+        console.log("La contraseña debe tener al menos 6 caracteres");
+        return res.redirect("/usuarios");
+      }
+      const salt = await bcrypt.genSalt(10);
+      hashedPassword = await bcrypt.hash(Password, salt);
+    }
     await prisma.user.update({
       where: {
-        IdUser: parseInt(Id),
+        idUser: parseInt(IdActualizar),
       },
       data: {
-        username,
-        email,
-        password: hashedPassword,
+        username: Nombre || FindUser.username,
+        email: Email || FindUser.email,
+        password: hashedPassword || FindUser.password,
       },
     });
     console.log("Usuario actualizado");
     return res.redirect("/usuarios");
-  } catch (e) {
+  } catch (e) {    
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.message.includes("user_email_key")) {
+        console.log("el usuario ya existe");
+        return res.redirect("/usuarios");
+      }
+    }
     console.log(e.message);
     return res.redirect("/usuarios");
   } finally {

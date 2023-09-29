@@ -13,6 +13,10 @@ require("dotenv").config();
 const ProductoRouter = require("./routes/Productos");
 const CategoriaRouter = require("./routes/Categoria");
 const TiendaRouter = require("./routes/tienda");
+const UsuariosRouter = require("./routes/Usuario");
+const UsuariosDashboard = require("./routes/Dashboard");
+const UsuariosLogin = require("./routes/login");
+
 const { options } = require("./config");
 const prisma = require("./db/db");
 const sessionStore = new MySQLStore(options);
@@ -50,16 +54,17 @@ passport.serializeUser(function (user, cb) {
   });
 });
 
-passport.deserializeUser(function (user, cb) {
+passport.deserializeUser(function (userdata, cb) {
   process.nextTick(async function () {
-    try {
+    try {      
       const user = await prisma.user.findUnique({
         where: {
-          idUser: parseInt(user.idUser),
+          idUser: parseInt(userdata.id),
         },
       });
-      if (!user) return cb(null, null);
 
+      if (!user) return cb(null, null);
+      
       cb(null, { id: user.idUser, username: user.username });
     } catch (error) {
       cb(error, null);
@@ -82,6 +87,9 @@ app.use(helmet.permittedCrossDomainPolicies());
 app.use("/", TiendaRouter);
 app.use("/productos", ProductoRouter);
 app.use("/categoria", CategoriaRouter);
+app.use("/usuarios", UsuariosRouter);
+app.use("/dashboard", UsuariosDashboard);
+app.use("/login", UsuariosLogin);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(function (req, res, next) {

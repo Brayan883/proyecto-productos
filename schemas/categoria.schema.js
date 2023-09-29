@@ -29,10 +29,10 @@ const CategoriaSchema = z.object({
 const CategoriaSchemaUpdate = CategoriaSchema.extend({
     body: z.object({
         IdActualizar:z.string(' Ingrese Id valido').trim()    
+        .nonempty(' Ingrese Id Valido')
         .refine(validacionData.noScriptsOrSQL, ' Ingrese Id valido')
         .refine(validacionData.notSql, ' Ingrese Ingrese Id valido')
-        .refine(validacionData.noQuotes)
-        .optional(),
+        .refine(validacionData.noQuotes),
 
         Nombre: z.string(' Ingrese Nombre Valido').trim()
         .nonempty(' Ingrese Nombre valido')

@@ -1,7 +1,7 @@
 const prisma = require("../db/db");
 const fs = require("fs");
 
-const listarProducto = async (req, res, next) => {
+const listarProducto = async (req, res, next) => {  
   try {
     const mostrarproducto = await prisma.producto.findMany({
       select: {
@@ -17,6 +17,9 @@ const listarProducto = async (req, res, next) => {
         categoriaId: true,        
         subtotal: true,
       },
+      where: {
+        usuarioId: parseInt(req.user.id),
+      }
     });
 
     const mostrarCategoria = await prisma.categoria.findMany({
@@ -62,6 +65,7 @@ const createproducto = async (req, res) => {
           estado: Estado,
           categoriaId: parseInt(Categoria) || null,
           subtotal: parseFloat(precio) * parseInt(Cantidad) || null,
+          usuarioId: parseInt(req.user.id),
         },
       })
       .then(function () {
@@ -146,6 +150,7 @@ const UpdateProducto = async (req, res) => {
           estado: Estado,
           categoriaId: parseInt(Categoria),
           subtotal: parseFloat(precio) * parseInt(Cantidad) || null,
+          usuarioId: parseInt(req.user.id),
         },
       });
       return res.redirect("/productos");
