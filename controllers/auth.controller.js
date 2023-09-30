@@ -11,13 +11,16 @@ const login = async (req, res) => {
   try {
     const { Email, Password } = req.body;
 
-    console.log(req.body);
+    
 
     const FindUser = await prisma.user.findUnique({
       where: {
         email: Email,
       },
     });
+
+   
+ 
 
     if (!FindUser) {
       console.log("Usuario no encontrado");
@@ -33,10 +36,12 @@ const login = async (req, res) => {
       if (err) {
         throw err;
       }
+      req.flash("menssages", 'ejemplo'  )
       return res.redirect("/dashboard");
     });
   } catch (e) {
     console.log(e.message);
+    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
     return res.redirect("/login");
   } finally {
     prisma.$disconnect();
@@ -46,6 +51,9 @@ const login = async (req, res) => {
 const logoutCerrar = (req, res) => {
   try {
     req.logout(function (err) {
+
+      
+
       if (err) {
         console.error(err.message);
         return res.status(500).json({
