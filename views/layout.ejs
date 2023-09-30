@@ -13,7 +13,12 @@
     <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
     <link rel="stylesheet" href="/css/glightbox.min.css" />
     <link rel="stylesheet" href="/css/toastr.min.css" />
+
+        
     <script type="text/javascript" src="/js/jquery-3.7.0.min.js"></script>
+    <script type="text/javascript" src="/js/toastr.js.map"></script>
+    <script type="text/javascript" src="/js/toastr.min.js"></script>
+    <script type="text/javascript" src="/js/toastr-options.js"></script>
   </head>
   <body>
     <%- body %> 
@@ -21,7 +26,7 @@
     <% if (mensajes && mensajes.length> 0) { %>
         <% mensajes.forEach(message=> { %>
             <script type="text/javascript" >
-                alert('mensaje')
+                toastr["success"]("<%- message %>")
             </script>
         <% }) %>
     <% } %>
@@ -43,7 +48,6 @@
     <script type="text/javascript" src="/js/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="/js/sticky-kit.min.js"></script>
     <script type="text/javascript" src="/js/glightbox.min.js"></script>
-    <script type="text/javascript" src="/js/toastr.min.js"></script>
     <script type="text/javascript" src="/js/datatables.inicial.js"></script>
   </body>
 </html>
