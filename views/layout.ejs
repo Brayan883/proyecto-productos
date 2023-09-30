@@ -20,7 +20,9 @@
 
     <% if (mensajes && mensajes.length> 0) { %>
         <% mensajes.forEach(message=> { %>
-            <p class="alert alert-info" ><%-message  %></p>
+            <script type="text/javascript" >
+                alert('mensaje')
+            </script>
         <% }) %>
     <% } %>
 

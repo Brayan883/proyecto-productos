@@ -29,6 +29,7 @@ const login = async (req, res) => {
 
     if (!bcrypt.compareSync(Password, FindUser.password)) {
       console.log("contraseña incorrecta");
+      req.flash("menssages", 'error'  )
       return res.redirect("/login");
     }
 
@@ -36,13 +37,11 @@ const login = async (req, res) => {
       if (err) {
         throw err;
       }
-      req.flash("menssages", 'ejemplo'  )
+      req.flash("menssages", 'nose'  )
       return res.redirect("/dashboard");
     });
-  } catch (e) {
-    console.log(e.message);
-    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
-    return res.redirect("/login");
+  } catch (e) {       
+    return res.redirect("/dashboard");
   } finally {
     prisma.$disconnect();
   }

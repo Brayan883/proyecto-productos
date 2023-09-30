@@ -96,8 +96,8 @@ app.use(helmet.referrerPolicy({ policy: "same-origin" }));
 app.use(helmet.permittedCrossDomainPolicies());
 
 
-app.use(function (req, res, next) {   
-  res.locals.mensajes = req.flash('menssages')      
+app.use(function (req, res, next) {     
+  res.locals.mensajes = req.flash('menssages')  
   next();
 });
 
