@@ -1,1 +1,8 @@
 DATABASE_URL="mysql://'usuario':'contraseña'@localhost:3306/dbProductos"
+DB_HOST=""
+DB_PORT=
+DB_USER=
+DB_PASSWORD=
+DB_DATABASE=
+SESSION_SECRET=
+SESSION_KEY=
