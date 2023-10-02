@@ -24,9 +24,9 @@
     <%- body %> 
 
     <% if (mensajes && mensajes.length> 0) { %>
-        <% mensajes.forEach(message=> { %>
+        <% mensajes.forEach(message=> { %>            
             <script type="text/javascript" >
-                toastr["success"]("<%- message %>")
+                toastr["<%- message.type %>"]("<%-  message.message[0].msg %>")
             </script>
         <% }) %>
     <% } %>

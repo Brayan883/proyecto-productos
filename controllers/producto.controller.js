@@ -14,13 +14,15 @@ const listarProducto = async (req, res, next) => {
         Descripcion: true,
         marca: true,
         estado: true,
-        categoriaId: true,        
-        subtotal: true,
+        categoriaId: true,                
+        subtotal: true,                                           
       },
       where: {
         usuarioId: parseInt(req.user.id),
-      }
+      },          
     });
+
+    
 
     const mostrarCategoria = await prisma.categoria.findMany({
       select: {
@@ -34,7 +36,8 @@ const listarProducto = async (req, res, next) => {
       mostrarCategoria,
     });
   } catch (e) {
-    console.log(e.message);
+    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
+    res.redirect("/productos");
   } finally {
     prisma.$disconnect();
   }
@@ -69,11 +72,11 @@ const createproducto = async (req, res) => {
         },
       })
       .then(function () {
-        console.log("Producto creado");
+        req.flash("menssages", [{type:'success',message:[{msg: 'Producto creado' }] }]  )
         res.redirect("/productos");
       });
   } catch (e) {
-    console.log(e.message);
+    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
     res.redirect("/productos");
   } finally {
     prisma.$disconnect();
@@ -97,8 +100,7 @@ const deleteproducto = async (req, res, next) => {
             IdProducto: parseInt(req.params.id),
           },
         })
-        .then(function () {
-          console.log("Producto eliminado");
+        .then(function () {         
           res.status(200).json({ message: "Producto eliminado" });
         });
     } else {
@@ -125,9 +127,7 @@ const UpdateProducto = async (req, res) => {
       Estado,
       Categoria,
       Id
-    } = req.body;
-
-    console.log(req.body)
+    } = req.body;    
 
     const DatoActualizar = await prisma.producto.findUnique({
       where: {
@@ -153,12 +153,14 @@ const UpdateProducto = async (req, res) => {
           usuarioId: parseInt(req.user.id),
         },
       });
+      req.flash("menssages", [{type:'success',message:[{msg: 'Producto actualizado' }] }]  )
       return res.redirect("/productos");
     } else {
+      req.flash("menssages", [{type:'warning',message:[{msg: 'Producto no encontrado' }] }]  )
       return res.redirect("/productos");
     }
   } catch (e) {
-    console.log(e.message);
+    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
     return res.redirect("/productos");
   } finally {
     prisma.$disconnect();

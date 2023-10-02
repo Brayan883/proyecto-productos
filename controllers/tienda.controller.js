@@ -67,7 +67,7 @@ const listarProductos = async (req, res) => {
       mostrarUltimaCategorias
     });
   } catch (e) {
-    console.log(e.message)
+    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
     res.redirect('/tienda')
   } finally {
     prisma.$disconnect()
@@ -100,7 +100,7 @@ const createOrders = async (req, res) => {
      const paymentURL = result.body.init_point;               
      return res.json({paymentURL});
   } catch (e) {
-    console.log(e.message);
+   req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
    return res.redirect('/tienda')
   }
 }

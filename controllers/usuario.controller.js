@@ -14,7 +14,7 @@ const ListarUsuarios = async (req, res) => {
       mostrarUsuarios,
     });
   } catch (e) {
-    console.log(e.message);
+    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
     return res.redirect("/usuarios");
   } finally {
     prisma.$disconnect();
@@ -32,7 +32,7 @@ const createUsuario = async (req, res) => {
     });
 
     if (FindUser) {
-      console.log("El usuario ya existe");
+      req.flash("menssages", [{type:'warning',message:[{msg: 'El usuario ya existe' }] }]  )
       return res.redirect("/usuarios");
     }
     const salt = await bcrypt.genSalt(10);
@@ -45,10 +45,10 @@ const createUsuario = async (req, res) => {
         password: hashedPassword,
       },
     });
-    console.log("Usuario creado");
+    req.flash("menssages", [{type:'success',message:[{msg: 'Usuario creado' }] }]  )
     return res.redirect("/usuarios");
   } catch (error) {
-    console.log(error);
+    req.flash("menssages", [{type:'warning',message:[{msg: error.message }] }]  )
     return res.redirect("/usuarios");
   } finally {
     prisma.$disconnect();
@@ -93,14 +93,14 @@ const UpdateUsuario = async (req, res) => {
     });
 
     if (!FindUser) {
-      console.log("Usuario no encontrado");
+      req.flash("menssages", [{type:'warning',message:[{msg: 'Usuario no encontrado' }] }]  )
       return res.redirect("/usuarios");
     }
 
     let hashedPassword = null;
     if (Password) {
       if (Password.length < 6) {
-        console.log("La contraseña debe tener al menos 6 caracteres");
+        req.flash("menssages", [{type:'warning',message:[{msg: 'La contraseña debe tener al menos 6 caracteres' }] }]  )
         return res.redirect("/usuarios");
       }
       const salt = await bcrypt.genSalt(10);
@@ -116,16 +116,16 @@ const UpdateUsuario = async (req, res) => {
         password: hashedPassword || FindUser.password,
       },
     });
-    console.log("Usuario actualizado");
+    req.flash("menssages", [{type:'success',message:[{msg: 'Usuario actualizado' }] }]  )
     return res.redirect("/usuarios");
   } catch (e) {    
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       if (e.message.includes("user_email_key")) {
-        console.log("el usuario ya existe");
+        req.flash("menssages", [{type:'warning',message:[{msg: 'El email ya existe' }] }]  )
         return res.redirect("/usuarios");
       }
     }
-    console.log(e.message);
+    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
     return res.redirect("/usuarios");
   } finally {
     prisma.$disconnect();

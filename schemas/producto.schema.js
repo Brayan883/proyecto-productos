@@ -17,23 +17,26 @@ const Producto_schema = z.object({
         .refine(validacionData.notSql, ' Ingrese Nombre valido')
         .refine(validacionData.noQuotes),
 
-        Marca: z.string(' Ingrese marca valido').trim()        
+        Marca: z.string(' Ingrese marca valido').trim()                
         .refine(validacionData.noScriptsOrSQL, ' Ingrese marca valido')
         .refine(validacionData.notSql, ' Ingrese marca valido')
         .refine(validacionData.noQuotes)
         .optional(),
 
-        precio : z.string(' Ingrese precio valido').trim()        
+        precio : z.string(' Ingrese precio valido').trim() 
+        .nonempty(' Ingrese precio valido')       
         .refine(validacionData.noScriptsOrSQL, ' Ingrese precio valido')
         .refine(validacionData.notSql, ' Ingrese precio valido')
         .refine(validacionData.noQuotes),
 
-        stock: z.string(' Ingrese stock valido').trim()        
+        stock: z.string(' Ingrese stock valido').trim()   
+        .nonempty(' Ingrese stock')     
         .refine(validacionData.noScriptsOrSQL, ' Ingrese stock')
         .refine(validacionData.notSql, ' Ingrese stock')
         .refine(validacionData.noQuotes),
 
         Cantidad: z.string(' Ingrese cantidad valido').trim()        
+        .nonempty(' Ingrese cantidad')
         .refine(validacionData.noScriptsOrSQL, ' Ingrese cantidad valido')
         .refine(validacionData.notSql, ' Ingrese cantidad valido')
         .refine(validacionData.noQuotes),
@@ -49,10 +52,10 @@ const Producto_schema = z.object({
 
                         
         Categoria: z.string(' Ingrese CategoriaId valido')
+        .nonempty(' Ingrese CategoriaId')
         .refine(validacionData.noScriptsOrSQL, ' Ingrese CategoriaId valido')
         .refine(validacionData.notSql, ' Ingrese CategoriaId valido')
-        .refine(validacionData.noQuotes)
-        .optional(),
+        .refine(validacionData.noQuotes),
 
         Estado:z.string(' Ingrese estado valido').trim()
         .nonempty(' Ingrese estado valido')

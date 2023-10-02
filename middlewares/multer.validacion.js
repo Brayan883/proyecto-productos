@@ -39,7 +39,7 @@ const validacionMulter = async (req, res, next) => {
         await new Promise((resolve, reject) => {
             upload.single('imagen')(req, res, function (err) {
                 if (!req.file) {
-                    reject(new Error('Se requiere un archivo'));
+                    reject(new Error('Se requiere un archivo o el archivo execede los limites permitidos'));
                 } else if (err instanceof multer.MulterError) {
                     reject(err.code);
                 } else if (err) {
@@ -50,8 +50,8 @@ const validacionMulter = async (req, res, next) => {
         });
         next();
     } catch (error) {
-        console.log(error.message);
-        return res.redirect('/');
+      req.flash("menssages", [{type:'warning',message:[{msg: error.message }] }]  )
+      return res.redirect('/productos');
     }
 };
 
@@ -74,8 +74,8 @@ const validacionMulterOpcional = async (req, res, next) => {
       });
       next();
     } catch (error) {
-      console.log(error.message);
-      return res.redirect('/');
+      req.flash("menssages", [{type:'warning',message:[{msg: error.message }] }]  )
+      return res.redirect('/productos');
     }
   };
 

@@ -13,7 +13,7 @@ const listarcategoria = async (req, res, next) => {
       mostrarCategoria,
     });
   } catch (e) {
-    console.log(e.message);
+    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
     res.redirect("/categoria");
   } finally {
     prisma.$disconnect();
@@ -32,11 +32,12 @@ const createCategoria = async (req, res) => {
         },
       })
       .then(function () {
-        console.log("Categoria creado");
+        req.flash("menssages", [{type:'success',message:[{msg: 'Categoria creada' }] }]  )
         res.redirect("/categoria");
       });
   } catch (e) {
-    console.log(e.message);
+    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
+    res.redirect("/categoria");
   } finally {
     prisma.$disconnect();
   }
@@ -81,9 +82,10 @@ const updatecategoria = async (req, res) => {
         estado: Estado
       },
     });
+    req.flash("menssages", [{type:'success',message:[{msg: 'Categoria actualizada' }] }]  )
     res.redirect("/categoria");
   } catch (e) {
-    console.log(e.message);
+    req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
     res.redirect("/categoria");
   } finally {
     prisma.$disconnect();
