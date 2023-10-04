@@ -6,72 +6,71 @@ include('componentes/TemplateFooterCarrito.ejs') %> <%-
 include('componentes/TemplateCuerpoCarrito.ejs') %>
 
 <script type="module">
-  const container = document.getElementById('search-results');
-  const template = document.getElementById('search-result-template');
-  const searchInput = document.getElementById('search-input');
-  const fragment = document.createDocumentFragment();
-  const items = <%- JSON.stringify(MostrarProducto) %>;
-  const filtrarCategoria = document.querySelectorAll('.list-group-item')
-  const ContenedorCarrito = document.getElementById('ContainerCarrito')
-  const TemplateCarrito = document.getElementById('templateCarrito')
-  const FooterCarrito = document.getElementById('FooterCarrito')
-  const TemplateCarritoFooter = document.getElementById('templateCarritoFooter')
-  const TemplateContadorCarrito = document.getElementById('templateContadorCarrito')
+    const container = document.getElementById('search-results');
+    const template = document.getElementById('search-result-template');
+    const searchInput = document.getElementById('search-input');
+    const fragment = document.createDocumentFragment();
+    const items = <%- JSON.stringify(MostrarProducto) %>;
+    const filtrarCategoria = document.querySelectorAll('.list-group-item')
+    const ContenedorCarrito = document.getElementById('ContainerCarrito')
+    const TemplateCarrito = document.getElementById('templateCarrito')
+    const FooterCarrito = document.getElementById('FooterCarrito')
+    const TemplateCarritoFooter = document.getElementById('templateCarritoFooter')
+    const TemplateContadorCarrito = document.getElementById('templateContadorCarrito')
+    import { agregarCarrito, CarritoAumentar, CarritoDisminuir, EnviarProductos, pintarCarrito, displaySearchResults, ContadorCarritoItems } from '/js/CarritoMain.js'
 
-  import { agregarCarrito, CarritoAumentar, CarritoDisminuir, EnviarProductos, pintarCarrito, displaySearchResults, ContadorCarritoItems } from '/js/CarritoMain.js'
-
-  window.addEventListener('DOMContentLoaded', function () {
-    displaySearchResults({ results: items, container, template, fragment });    
-    ContadorCarritoItems({ content: TemplateContadorCarrito });     
-
-    document.addEventListener('click', (e) => {
-
-      if (e.target.matches('.search-result__boton')) {
-        agregarCarrito(e.target.parentElement.parentElement);   
-        ContadorCarritoItems({ content: TemplateContadorCarrito });     
-        pintarCarrito({ ContenedorCarrito, TemplateCarrito, FooterCarrito, TemplateCarritoFooter, fragment });        
-      }
-
-      if (e.target.matches('.BtnAumentar')) {
-        CarritoAumentar(e.target);
-        ContadorCarritoItems({ content: TemplateContadorCarrito });
-        pintarCarrito({ ContenedorCarrito, TemplateCarrito, FooterCarrito, TemplateCarritoFooter, fragment });
-      }
-
-      if (e.target.matches('.BtnDisminuir')) {
-        CarritoDisminuir(e.target);
-        ContadorCarritoItems({ content: TemplateContadorCarrito });
-        pintarCarrito({ ContenedorCarrito, TemplateCarrito, FooterCarrito, TemplateCarritoFooter, fragment });
-      }
-
-      if (e.target.matches('.FinalizarCompra')) {
-        EnviarProductos(e.target);
-      }
-    });
-  });
-
-  searchInput.addEventListener('input', (e) => {
-    if (searchInput.value !== '') {
-      const productofiltrado = items.filter((item) => {
-        return item.Nombre.toLowerCase().includes(searchInput.value.toLowerCase());
-      });
-      displaySearchResults({ results: productofiltrado, container, template, fragment });
-    } else {
+    window.addEventListener('DOMContentLoaded', function () {
       displaySearchResults({ results: items, container, template, fragment });
-    }
-  });
+      ContadorCarritoItems({ content: TemplateContadorCarrito });
 
-  filtrarCategoria.forEach(item => {
-    item.addEventListener("click", (e) => {
-      const categoriaId = parseInt(e.target.getAttribute('data-iDCategoria'));
-      const productofiltrado = items.filter((item) => {
-        return item.categoriaId === categoriaId;
+      document.addEventListener('click', (e) => {
+
+        if (e.target.matches('.search-result__boton')) {
+          agregarCarrito(e.target.parentElement.parentElement);
+          ContadorCarritoItems({ content: TemplateContadorCarrito });
+          pintarCarrito({ ContenedorCarrito, TemplateCarrito, FooterCarrito, TemplateCarritoFooter, fragment });
+        }
+
+        if (e.target.matches('.BtnAumentar')) {
+          CarritoAumentar(e.target);
+          ContadorCarritoItems({ content: TemplateContadorCarrito });
+          pintarCarrito({ ContenedorCarrito, TemplateCarrito, FooterCarrito, TemplateCarritoFooter, fragment });
+        }
+
+        if (e.target.matches('.BtnDisminuir')) {
+          CarritoDisminuir(e.target);
+          ContadorCarritoItems({ content: TemplateContadorCarrito });
+          pintarCarrito({ ContenedorCarrito, TemplateCarrito, FooterCarrito, TemplateCarritoFooter, fragment });
+        }
+
+        if (e.target.matches('.FinalizarCompra')) {
+          EnviarProductos(e.target);
+        }
       });
-      if (productofiltrado.length === 0) {
-        displaySearchResults({ results: items, container, template, fragment });
-      } else {
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      if (searchInput.value !== '') {
+        const productofiltrado = items.filter((item) => {
+          return item.Nombre.toLowerCase().includes(searchInput.value.toLowerCase());
+        });
         displaySearchResults({ results: productofiltrado, container, template, fragment });
+      } else {
+        displaySearchResults({ results: items, container, template, fragment });
       }
     });
-  });
+
+    filtrarCategoria.forEach(item => {
+      item.addEventListener("click", (e) => {
+        const categoriaId = parseInt(e.target.getAttribute('data-iDCategoria'));
+        const productofiltrado = items.filter((item) => {
+          return item.categoriaId === categoriaId;
+        });
+        if (productofiltrado.length === 0) {
+          displaySearchResults({ results: items, container, template, fragment });
+        } else {
+          displaySearchResults({ results: productofiltrado, container, template, fragment });
+        }
+      });
+    });
 </script>

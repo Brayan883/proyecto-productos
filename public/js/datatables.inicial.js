@@ -1,4 +1,10 @@
 $(document).ready(function () {
+  $(".post-comment").hide();
+
+  $(".btn-toggle-comment").click(function () {        
+      $(this).parent().parent().children('.post-comment').slideToggle();   
+  });
+
   $("#tablas").DataTable({
     responsive: true,
     language: {

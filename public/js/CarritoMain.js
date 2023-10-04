@@ -70,6 +70,7 @@ const agregarCarrito = (element) => {
   };
   let DataFind = Carrito.findIndex((obj) => obj.Id === ObjectoCarrito.Id);
   DataFind === -1 ? Carrito.push(ObjectoCarrito) : Carrito[DataFind].Cantidad++;
+  toastr["success"]("Producto agregado al carrito");
 };
 
 const CarritoAumentar = (element) => {
@@ -94,7 +95,7 @@ const CarritoDisminuir = (element) => {
 };
 
 const EnviarProductos = async (element) => {
-  const data = await fetch("/tienda/createOrders", {
+  const data = await fetch("/createOrders", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -128,11 +129,25 @@ function displaySearchResults({ results, container, template, fragment }) {
       const botonElement = templateContent.querySelector(
         ".search-result__boton"
       );
+      const descripcion = templateContent.querySelector(
+        ".search-result__descripcion"
+      );
 
+     
       imagenElement.setAttribute("src", `img/${result.imagen}`);
       titleElement.textContent = result.Nombre;
       precioElement.textContent = `$${result.precio}`;
       botonElement.setAttribute("data-Id", result.IdProducto);
+      
+    
+      if (result.Descripcion) {
+        descripcion.textContent = result.Descripcion;
+        descripcion.classList.add("text-success");
+      } else {
+        descripcion.textContent = "Sin descripción";
+        descripcion.classList.add("text-danger");
+      }
+
       if (result.stock > 0) {
         botonElement.disabled = false;
       } else {
@@ -144,9 +159,9 @@ function displaySearchResults({ results, container, template, fragment }) {
   }
 }
 
-const ContadorCarritoItems = ({ content }) => {  
-  const contador = Carrito?.reduce((acc, item) => acc + item.Cantidad, 0);  
-  content.textContent = contador;  
+const ContadorCarritoItems = ({ content }) => {
+  const contador = Carrito?.reduce((acc, item) => acc + item.Cantidad, 0);
+  content.textContent = contador;
 };
 
 export {

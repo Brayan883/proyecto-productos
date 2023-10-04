@@ -76,6 +76,7 @@ const createproducto = async (req, res) => {
         res.redirect("/productos");
       });
   } catch (e) {
+    console.log(e.message);
     req.flash("menssages", [{type:'warning',message:[{msg: e.message }] }]  )
     res.redirect("/productos");
   } finally {
